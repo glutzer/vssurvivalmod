@@ -25,6 +25,7 @@ namespace Vintagestory.GameContent.Mechanics
             { "generic", typeof(GenericMechBlockRenderer) },
             { "angledgears", typeof(AngledGearsBlockRenderer) },
             { "angledgearcage", typeof(AngledCageGearRenderer) },
+            { "spurgear", typeof(SpurGearBlockRenderer) },
             { "transmission", typeof(TransmissionBlockRenderer) },
             { "clutch", typeof(ClutchBlockRenderer) },
             { "pulverizer", typeof(PulverizerRenderer) },

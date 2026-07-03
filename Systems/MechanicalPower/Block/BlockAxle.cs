@@ -74,6 +74,29 @@ namespace Vintagestory.GameContent.Mechanics
             return false;
         }
 
+        public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
+        {
+            ItemSlot slot = byPlayer?.InventoryManager?.ActiveHotbarSlot;
+            if (slot?.Itemstack?.Block is BlockSpurGear)
+            {
+                BlockPos spurPos = blockSel.Position.AddCopy(blockSel.Face);
+                if (world.BlockAccessor.GetBlock(spurPos) is BlockSpurGear existingSpur)
+                {
+                    BlockFacing sideFace = blockSel.Face.Opposite;
+                    if (existingSpur.TryAddSideCogFromAdjacentAxle(world, spurPos, sideFace))
+                    {
+                        if (world.Side == EnumAppSide.Server && byPlayer?.WorldData.CurrentGameMode != EnumGameMode.Creative)
+                        {
+                            slot.TakeOut(1);
+                            slot.MarkDirty();
+                        }
+                        return true;
+                    }
+                }
+            }
+
+            return base.OnBlockInteractStart(world, byPlayer, blockSel);
+        }
 
         public override void OnNeighbourBlockChange(IWorldAccessor world, BlockPos pos, BlockPos neibpos)
         {
